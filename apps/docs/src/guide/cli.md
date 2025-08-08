@@ -13,7 +13,7 @@ yarn global add webcrack
 ```
 
 ```bash [pnpm]
-pnpm add -g webcrack --allow-build=isolated-vm
+pnpm add -g webcrack-nodevm
 ```
 
 :::

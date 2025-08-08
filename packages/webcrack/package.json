@@ -63,8 +63,7 @@
     "@babel/types": "^7.27.1",
     "@codemod/matchers": "^1.7.1",
     "commander": "^13.1.0",
-    "debug": "^4.4.0",
-    "isolated-vm": "^5.0.4"
+    "debug": "^4.4.0"
   },
   "devDependencies": {
     "@types/babel__generator": "^7.6.8",

@@ -1,3 +1,7 @@
+# Fork of webcrack, you probably shouldnt use this
+
+its using node:vm which is not entirely safe for untrusted code execution
+
 [![Test](https://github.com/j4k0xb/webcrack/actions/workflows/ci.yml/badge.svg)](https://github.com/j4k0xb/webcrack/actions/workflows/test.yml)
 [![npm](https://img.shields.io/npm/v/webcrack)](https://www.npmjs.com/package/webcrack)
 [![license](https://img.shields.io/github/license/j4k0xb/webcrack)](https://github.com/j4k0xb/webcrack/blob/master/LICENSE)

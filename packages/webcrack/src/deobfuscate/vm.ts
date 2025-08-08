@@ -5,23 +5,15 @@ import { generate } from '../ast-utils';
 import type { ArrayRotator } from './array-rotator';
 import type { Decoder } from './decoder';
 import type { StringArray } from './string-array';
+import vm from 'node:vm';
 
 export type Sandbox = (code: string) => Promise<unknown>;
 
 export function createNodeSandbox(): Sandbox {
   return async (code: string) => {
-    const {
-      default: { Isolate },
-    } = await import('isolated-vm');
-    const isolate = new Isolate();
-    const context = await isolate.createContext();
-    const result = (await context.eval(code, {
-      timeout: 10_000,
-      copy: true,
-      filename: 'file:///obfuscated.js',
-    })) as unknown;
-    context.release();
-    isolate.dispose();
+    const ctx = vm.createContext();
+    const result = await vm.runInContext(code, ctx);
+
     return result;
   };
 }
@@ -68,21 +60,14 @@ export class VMDecoder {
       return [${calls.join(',')}]
     })()`;
 
+    console.log('what the fuck is this setup code returning', this.setupCode);
+
     try {
       const result = await this.sandbox(code);
       return result as unknown[];
     } catch (error) {
       debug('webcrack:deobfuscate')('vm code:', code);
-      if (
-        error instanceof Error &&
-        (error.message.includes('undefined symbol') ||
-          error.message.includes('Segmentation fault'))
-      ) {
-        throw new Error(
-          'isolated-vm version mismatch. Check https://webcrack.netlify.app/docs/guide/common-errors.html#isolated-vm',
-          { cause: error },
-        );
-      }
+
       throw error;
     }
   }
